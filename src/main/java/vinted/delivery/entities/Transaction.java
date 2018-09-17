@@ -53,19 +53,23 @@ public class Transaction {
         getBill().setDiscount(discount);
     }
 
+    public String getOrigin() {
+        return origin;
+    }
+
+    public boolean isIgnored() {
+        return ignored;
+    }
+
+    public boolean isValid() {
+        return !ignored;
+    }
+
     public Bill getBill() {
         if (Objects.isNull(bill)) {
             bill = new Bill();
             return bill;
         }
         return bill;
-    }
-
-    // TODO: move this to output responsible class
-    @Override
-    public String toString() {
-        return ignored ?
-            String.format("%s Ignored", origin)
-            : String.format("%s %s %s", date.toString(), packageSize, provider);
     }
 }

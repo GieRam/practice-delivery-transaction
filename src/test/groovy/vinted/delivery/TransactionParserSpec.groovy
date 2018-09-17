@@ -2,16 +2,16 @@ package vinted.delivery
 
 import spock.lang.Specification
 import vinted.delivery.entities.Transaction
-import vinted.delivery.service.TransactionFactory
-import vinted.delivery.service.TransactionParser
-import vinted.delivery.validation.EntryValidator
+import vinted.delivery.service.factory.DefaultTransactionFactory
+import vinted.delivery.service.input.FileTransactionParser
+import vinted.delivery.service.input.TransactionParser
+import vinted.delivery.validation.TransactionEntryValidator
 
 import java.nio.file.Paths
 
-
 class TransactionParserSpec extends Specification {
 
-    TransactionParser parser = new TransactionParser(new TransactionFactory(" ", new EntryValidator()))
+    TransactionParser parser = new FileTransactionParser(new DefaultTransactionFactory(new TransactionEntryValidator()))
 
     def 'should parse File to transactions'() {
         given:

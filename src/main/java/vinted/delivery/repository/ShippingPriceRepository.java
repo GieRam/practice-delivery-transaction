@@ -1,8 +1,8 @@
 package vinted.delivery.repository;
 
+import vinted.delivery.entities.ShippingPrice;
 import vinted.delivery.enums.PackageSize;
 import vinted.delivery.enums.Provider;
-import vinted.delivery.entities.ShippingPrice;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -27,6 +27,7 @@ public class ShippingPriceRepository implements PriceRepository {
         this.lowestPriceCache = new ConcurrentHashMap<>();
     }
 
+    // TODO: memoize find price
     public BigDecimal findPrice(PackageSize packageSize, Provider provider) {
         return prices
             .stream()
@@ -34,10 +35,10 @@ public class ShippingPriceRepository implements PriceRepository {
             .map(ShippingPrice::getPrice)
             .findFirst()
             .orElseThrow(() -> new IllegalStateException(
-                String.format(
-                    "Shipping price configuration malformed. Price for package size: %s, provider: %s, not found",
-                    packageSize.getName(),
-                    provider.getName())
+                    String.format(
+                        "Shipping price configuration malformed. Price for package size: %s, provider: %s, not found",
+                        packageSize.getName(),
+                        provider.getName())
                 )
             );
     }

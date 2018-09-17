@@ -8,11 +8,11 @@ import vinted.delivery.repository.PriceRepository
 
 import java.time.LocalDate
 
-class PricingServiceSpec extends Specification {
+class BillServiceSpec extends Specification {
 
     PriceRepository repository
 
-    PricingService pricingService
+    BillService pricingService
 
     LocalDate now
 
@@ -21,7 +21,7 @@ class PricingServiceSpec extends Specification {
     def 'setup'() {
         repository = Mock(PriceRepository)
         repository.findLowestPrice(PackageSize.S) >> 1.5
-        pricingService = new PricingService(repository)
+        pricingService = new BillService(repository)
         now = LocalDate.now()
         nextMonth = LocalDate.now().plusMonths(1)
     }

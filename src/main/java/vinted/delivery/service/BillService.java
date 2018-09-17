@@ -12,24 +12,29 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class PricingService {
+import static vinted.ApplicationContext.MAX_DISCOUNT_PER_MONTH;
 
-    public static final BigDecimal MAX_DISCOUNT_PER_MONTH = BigDecimal.TEN;
+public class BillService {
 
     private final PriceRepository priceRepository;
 
     private Function<Stream<Transaction>, Stream<Transaction>> setPrices = this::setPrices;
 
-    public PricingService(PriceRepository priceRepository) {
+    public BillService(PriceRepository priceRepository) {
         this.priceRepository = priceRepository;
     }
 
     public List<Transaction> applyPricing(List<Transaction> transactions) {
+        List<Transaction> sorted = transactions.stream()
+            .filter(Transaction::isValid)
+            .sorted(Comparator.comparing(Transaction::getDate))
+            .collect(Collectors.toList());
+
         return setPrices
             .andThen(this::smallPackageLowestPrice)
             .andThen(this::freeThirdLargeShipment)
             .andThen(this::accumulatedDiscountConstraint)
-            .apply(transactions.stream().sorted(Comparator.comparing(Transaction::getDate)))
+            .apply(sorted.stream())
             .collect(Collectors.toList());
     }
 
