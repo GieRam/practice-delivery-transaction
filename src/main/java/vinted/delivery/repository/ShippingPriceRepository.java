@@ -31,7 +31,7 @@ public class ShippingPriceRepository implements PriceRepository {
     public BigDecimal findPrice(PackageSize packageSize, Provider provider) {
         return prices
             .stream()
-            .filter(shippingPrice -> shippingPrice.getPackageSize() == packageSize && shippingPrice.getProvider() == provider)
+            .filter(it -> it.getPackageSize() == packageSize && it.getProvider() == provider)
             .map(ShippingPrice::getPrice)
             .findFirst()
             .orElseThrow(() -> new IllegalStateException(
@@ -51,6 +51,6 @@ public class ShippingPriceRepository implements PriceRepository {
                 .map(ShippingPrice::getPrice)
                 .sorted()
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException("Shipping price configuration malformed. Price field must not be null")));
+                .orElseThrow(() -> new IllegalStateException("Shipping price configuration malformed. Price field must not be empty")));
     }
 }

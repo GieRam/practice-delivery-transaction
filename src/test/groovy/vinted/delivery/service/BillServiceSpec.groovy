@@ -12,7 +12,7 @@ class BillServiceSpec extends Specification {
 
     PriceRepository repository
 
-    BillService pricingService
+    BillService billService
 
     LocalDate now
 
@@ -21,7 +21,7 @@ class BillServiceSpec extends Specification {
     def 'setup'() {
         repository = Mock(PriceRepository)
         repository.findLowestPrice(PackageSize.S) >> 1.5
-        pricingService = new BillService(repository)
+        billService = new BillService(repository)
         now = LocalDate.now()
         nextMonth = LocalDate.now().plusMonths(1)
     }
@@ -36,11 +36,12 @@ class BillServiceSpec extends Specification {
                     new Transaction(now, PackageSize.S, Provider.MR, 'origin')
             ]
         when:
-            def result = pricingService.applyPricing(transactions).collect { it -> it.getBill() }
+            billService.apply(transactions)
+            def bills = transactions.collect { it -> it.getBill() }
         then:
-            result.size() == 2
-            result[0].getPrice() == 1.5 && result[0].getDiscount() == 0
-            result[1].getPrice() == 2 && result[1].getDiscount() == 0.5
+            bills.size() == 2
+            bills[0].getPrice() == 1.5 && bills[0].getDiscount() == 0
+            bills[1].getPrice() == 2 && bills[1].getDiscount() == 0.5
     }
 
     def 'third L shipment via LP should be free once a calendar month'() {
@@ -60,18 +61,19 @@ class BillServiceSpec extends Specification {
                     new Transaction(nextMonth, PackageSize.L, Provider.LP, 'origin'),
             ]
         when:
-            def result = pricingService.applyPricing(transactions).collect { it -> it.getBill() }
+            billService.apply(transactions)
+            def bills = transactions.collect { it -> it.getBill() }
         then:
-            result.size() == 9
-            result[0].getPrice() == 6.9 && result[0].getDiscount() == 0
-            result[1].getPrice() == 6.9 && result[1].getDiscount() == 0
-            result[2].getPrice() == 6.9 && result[2].getDiscount() == 6.9
-            result[3].getPrice() == 6.9 && result[3].getDiscount() == 0
-            result[4].getPrice() == 4.0 && result[4].getDiscount() == 0
-            result[5].getPrice() == 6.9 && result[5].getDiscount() == 0
-            result[6].getPrice() == 6.9 && result[6].getDiscount() == 0
-            result[7].getPrice() == 6.9 && result[7].getDiscount() == 6.9
-            result[8].getPrice() == 6.9 && result[8].getDiscount() == 0
+            bills.size() == 9
+            bills[0].getPrice() == 6.9 && bills[0].getDiscount() == 0
+            bills[1].getPrice() == 6.9 && bills[1].getDiscount() == 0
+            bills[2].getPrice() == 6.9 && bills[2].getDiscount() == 6.9
+            bills[3].getPrice() == 6.9 && bills[3].getDiscount() == 0
+            bills[4].getPrice() == 4.0 && bills[4].getDiscount() == 0
+            bills[5].getPrice() == 6.9 && bills[5].getDiscount() == 0
+            bills[6].getPrice() == 6.9 && bills[6].getDiscount() == 0
+            bills[7].getPrice() == 6.9 && bills[7].getDiscount() == 6.9
+            bills[8].getPrice() == 6.9 && bills[8].getDiscount() == 0
 
     }
 
@@ -83,8 +85,8 @@ class BillServiceSpec extends Specification {
             def transactions = [
                     new Transaction(now, PackageSize.L, Provider.LP, 'origin'),
                     new Transaction(now, PackageSize.L, Provider.LP, 'origin'),
-                    new Transaction(now, PackageSize.L, Provider.LP, 'origin'),
                     new Transaction(now, PackageSize.S, Provider.MR, 'origin'),
+                    new Transaction(now, PackageSize.L, Provider.LP, 'origin'),
                     new Transaction(now, PackageSize.S, Provider.MR, 'origin'),
                     new Transaction(now, PackageSize.S, Provider.MR, 'origin'),
                     new Transaction(now, PackageSize.S, Provider.MR, 'origin'),
@@ -94,19 +96,20 @@ class BillServiceSpec extends Specification {
                     new Transaction(nextMonth, PackageSize.S, Provider.MR, 'origin')
             ]
         when:
-            def result = pricingService.applyPricing(transactions).collect { it -> it.getBill() }
+            billService.apply(transactions)
+            def bills = transactions.collect { it -> it.getBill() }
         then:
-            result.size() == 11
-            result[0].getPrice() == 6.9 && result[0].getDiscount() == 0
-            result[1].getPrice() == 6.9 && result[1].getDiscount() == 0
-            result[2].getPrice() == 6.9 && result[2].getDiscount() == 6.9
-            result[3].getPrice() == 2 && result[3].getDiscount() == 0.5
-            result[4].getPrice() == 2 && result[4].getDiscount() == 0.5
-            result[5].getPrice() == 2 && result[5].getDiscount() == 0.5
-            result[6].getPrice() == 2 && result[6].getDiscount() == 0.5
-            result[7].getPrice() == 2 && result[7].getDiscount() == 0.5
-            result[8].getPrice() == 2 && result[8].getDiscount() == 0.5
-            result[9].getPrice() == 2 && result[9].getDiscount() == 0.1
-            result[10].getPrice() == 2 && result[10].getDiscount() == 0.5
+            bills.size() == 11
+            bills[0].getPrice() == 6.9 && bills[0].getDiscount() == 0
+            bills[1].getPrice() == 6.9 && bills[1].getDiscount() == 0
+            bills[2].getPrice() == 2 && bills[2].getDiscount() == 0.5
+            bills[3].getPrice() == 6.9 && bills[3].getDiscount() == 6.9
+            bills[4].getPrice() == 2 && bills[4].getDiscount() == 0.5
+            bills[5].getPrice() == 2 && bills[5].getDiscount() == 0.5
+            bills[6].getPrice() == 2 && bills[6].getDiscount() == 0.5
+            bills[7].getPrice() == 2 && bills[7].getDiscount() == 0.5
+            bills[8].getPrice() == 2 && bills[8].getDiscount() == 0.5
+            bills[9].getPrice() == 2 && bills[9].getDiscount() == 0.1
+            bills[10].getPrice() == 2 && bills[10].getDiscount() == 0.5
     }
 }

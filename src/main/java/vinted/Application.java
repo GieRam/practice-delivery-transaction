@@ -16,7 +16,7 @@ public class Application {
         TransactionParser parser = context.getBean(TransactionParser.class);
         List<Transaction> transactions = parser.parse(Paths.get(Application.class.getResource("/input.txt").toURI()));
         BillService billService = context.getBean(BillService.class);
-        billService.applyPricing(transactions);
+        billService.apply(transactions);
         TransactionWriter writer = context.getBean(TransactionWriter.class);
         writer.write(transactions);
     }
