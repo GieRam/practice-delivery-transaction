@@ -6,6 +6,7 @@ import vinted.delivery.transaction.service.BillService;
 import vinted.delivery.transaction.service.input.Parser;
 import vinted.delivery.transaction.service.output.TransactionWriter;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -24,8 +25,10 @@ public class Application {
 
             TransactionWriter writer = context.getBean(TransactionWriter.class);
             writer.write(transactions);
-        } catch (Exception ex) {
-            System.out.println(String.format("Application failure: %s", ex.getMessage()));
+        } catch (URISyntaxException e) {
+            System.out.println(String.format("Malformed URI Syntax: %s", e.getMessage()));
+        } catch (IOException e) {
+            System.out.println(String.format("Failed parsing input file: %s", e.getMessage()));
         }
     }
 

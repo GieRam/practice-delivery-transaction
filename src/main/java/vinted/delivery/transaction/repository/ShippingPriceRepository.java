@@ -12,7 +12,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static vinted.delivery.transaction.enums.PackageSize.*;
-import static vinted.delivery.transaction.enums.Provider.*;
+import static vinted.delivery.transaction.enums.Provider.LP;
+import static vinted.delivery.transaction.enums.Provider.MR;
 
 public class ShippingPriceRepository implements PriceRepository {
 
@@ -41,7 +42,7 @@ public class ShippingPriceRepository implements PriceRepository {
                 .filter(it -> it.getPackageSize() == packageSize && it.getProvider() == provider)
                 .map(ShippingPrice::getPrice)
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException(
+                .orElseThrow(() -> new IllegalArgumentException(
                     String.format(
                         "Shipping price configuration malformed. Price for package size: %s, provider: %s, not found",
                         packageSize.getName(),
@@ -57,7 +58,7 @@ public class ShippingPriceRepository implements PriceRepository {
                 .map(ShippingPrice::getPrice)
                 .sorted()
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException(
+                .orElseThrow(() -> new IllegalArgumentException(
                     "Shipping price configuration malformed. Price field must not be empty")));
     }
 }

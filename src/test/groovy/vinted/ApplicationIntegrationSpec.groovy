@@ -24,4 +24,15 @@ class ApplicationIntegrationSpec extends Specification {
         then:
             outputContent == new File(getClass().getResource('/output.txt').toURI()).text
     }
+
+    def 'should fail for missing file'() {
+        given:
+            String[] args = ['fail']
+        when:
+            Application.main(args)
+            def outputContent = outContent.toString()
+        then:
+            outputContent == 'Parsing transactions at path: fail\nFailed parsing input file: fail\n'
+
+    }
 }

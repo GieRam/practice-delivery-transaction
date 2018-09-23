@@ -5,8 +5,8 @@ import vinted.delivery.transaction.entities.Transaction
 
 import java.time.LocalDate
 
-import static vinted.delivery.transaction.enums.PackageSize.*
-import static vinted.delivery.transaction.enums.Provider.*
+import static vinted.delivery.transaction.enums.PackageSize.L
+import static vinted.delivery.transaction.enums.Provider.LP
 
 
 class PeriodicFreeShipmentRuleSpec extends Specification {
