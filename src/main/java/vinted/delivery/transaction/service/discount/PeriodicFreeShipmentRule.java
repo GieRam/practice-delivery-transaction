@@ -4,6 +4,7 @@ import vinted.delivery.transaction.entities.Transaction;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
 public class PeriodicFreeShipmentRule implements DiscountRule {
@@ -12,14 +13,14 @@ public class PeriodicFreeShipmentRule implements DiscountRule {
 
     private final Predicate<Transaction> appliesTo;
 
-    private final PeriodicLimitPredicate countResetTest;
+    private final BiPredicate<LocalDate, LocalDate> countResetTest;
 
     private final int order;
 
     private final boolean enabled;
 
     public PeriodicFreeShipmentRule(Predicate<Transaction> appliesTo,
-                                    PeriodicLimitPredicate countResetTest,
+                                    BiPredicate<LocalDate, LocalDate> countResetTest,
                                     int nextShipmentFreeLimit,
                                     int order,
                                     boolean enabled) {

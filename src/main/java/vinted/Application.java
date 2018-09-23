@@ -14,7 +14,7 @@ import java.util.List;
 public class Application {
 
     public static void main(String[] args) {
-        ApplicationContext context = new ApplicationContext();
+        ApplicationContext context = ApplicationContext.getInstance();
         try {
             Parser parser = context.getBean(Parser.class);
             List<Transaction> transactions = parser.parse(getInputPath(args));

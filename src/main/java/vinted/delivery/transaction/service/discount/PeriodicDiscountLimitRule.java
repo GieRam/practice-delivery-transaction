@@ -5,19 +5,20 @@ import vinted.delivery.transaction.entities.Transaction;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.function.BiPredicate;
 
 public class PeriodicDiscountLimitRule implements DiscountRule {
 
     private final BigDecimal discountLimit;
 
-    private final PeriodicLimitPredicate limitResetTest;
+    private final BiPredicate<LocalDate, LocalDate> limitResetTest;
 
     private final int order;
 
     private final boolean enabled;
 
     public PeriodicDiscountLimitRule(BigDecimal discountLimit,
-                                     PeriodicLimitPredicate limitResetTest,
+                                     BiPredicate<LocalDate, LocalDate> limitResetTest,
                                      int order,
                                      boolean enabled) {
         this.discountLimit = discountLimit;

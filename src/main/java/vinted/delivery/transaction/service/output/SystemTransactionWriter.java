@@ -6,9 +6,9 @@ import java.util.List;
 
 public class SystemTransactionWriter implements Writer {
 
-    private final Formatter formatter;
+    private final TransactionFormatter formatter;
 
-    public SystemTransactionWriter(Formatter formatter) {
+    public SystemTransactionWriter(TransactionFormatter formatter) {
         this.formatter = formatter;
     }
 

@@ -2,10 +2,9 @@ package vinted.delivery.transaction
 
 import spock.lang.Specification
 import vinted.delivery.transaction.entities.Transaction
-import vinted.delivery.transaction.service.factory.SpaceSeparatedFactory
 import vinted.delivery.transaction.service.factory.Factory
+import vinted.delivery.transaction.service.factory.SpaceSeparatedFactory
 import vinted.delivery.transaction.validation.TransactionValidator
-
 
 class TransactionFactorySpec extends Specification {
 

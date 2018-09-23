@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
 
-public class SpaceSeparatedFormatter implements Formatter {
+public class SpaceSeparatedFormatter implements TransactionFormatter {
 
     private static final DecimalFormat decimalFormat = new DecimalFormat("0.00");
 
