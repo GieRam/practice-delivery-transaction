@@ -1,7 +1,7 @@
 package vinted.delivery.transaction.service.input;
 
 import vinted.delivery.transaction.entities.Transaction;
-import vinted.delivery.transaction.service.factory.Factory;
+import vinted.delivery.transaction.service.factory.TransactionFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,9 +12,9 @@ import java.util.stream.Stream;
 
 public class FileTransactionParser implements Parser {
 
-    private final Factory transactionFactory;
+    private final TransactionFactory transactionFactory;
 
-    public FileTransactionParser(Factory transactionFactory) {
+    public FileTransactionParser(TransactionFactory transactionFactory) {
         this.transactionFactory = transactionFactory;
     }
 

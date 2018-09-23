@@ -5,14 +5,14 @@ import vinted.delivery.transaction.repository.PriceRepository;
 import vinted.delivery.transaction.repository.ShippingPriceRepository;
 import vinted.delivery.transaction.service.BillService;
 import vinted.delivery.transaction.service.discount.*;
-import vinted.delivery.transaction.service.factory.Factory;
+import vinted.delivery.transaction.service.factory.TransactionFactory;
 import vinted.delivery.transaction.service.factory.SpaceSeparatedFactory;
 import vinted.delivery.transaction.service.input.FileTransactionParser;
 import vinted.delivery.transaction.service.input.Parser;
 import vinted.delivery.transaction.service.output.SpaceSeparatedFormatter;
 import vinted.delivery.transaction.service.output.SystemTransactionWriter;
 import vinted.delivery.transaction.service.output.TransactionFormatter;
-import vinted.delivery.transaction.service.output.Writer;
+import vinted.delivery.transaction.service.output.TransactionWriter;
 import vinted.delivery.transaction.validation.SpaceSeparatedValidator;
 import vinted.delivery.transaction.validation.TransactionValidator;
 
@@ -41,10 +41,10 @@ public class ApplicationContext {
         beans.put(PriceRepository.class, new ShippingPriceRepository());
         beans.put(BillService.class, new BillService(getBean(PriceRepository.class), createDiscountRules()));
         beans.put(TransactionFormatter.class, new SpaceSeparatedFormatter());
-        beans.put(Writer.class, new SystemTransactionWriter(getBean(TransactionFormatter.class)));
+        beans.put(TransactionWriter.class, new SystemTransactionWriter(getBean(TransactionFormatter.class)));
         beans.put(TransactionValidator.class, new SpaceSeparatedValidator());
-        beans.put(Factory.class, new SpaceSeparatedFactory(getBean(TransactionValidator.class)));
-        beans.put(Parser.class, new FileTransactionParser(getBean(Factory.class)));
+        beans.put(TransactionFactory.class, new SpaceSeparatedFactory(getBean(TransactionValidator.class)));
+        beans.put(Parser.class, new FileTransactionParser(getBean(TransactionFactory.class)));
     }
 
     private List<DiscountRule> createDiscountRules() {

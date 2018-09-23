@@ -22,6 +22,10 @@ public class BillService {
     public void apply(List<Transaction> transactions) {
         System.out.println(String.format("Applying bills to %d transactions", transactions.size()));
         List<Transaction> applicable = getApplicable(transactions);
+        if (applicable.isEmpty()) {
+            System.out.println("No applicable transactions to apply bills to");
+            return;
+        }
         setPrices(applicable);
         discountRules.stream()
             .filter(DiscountRule::isEnabled)

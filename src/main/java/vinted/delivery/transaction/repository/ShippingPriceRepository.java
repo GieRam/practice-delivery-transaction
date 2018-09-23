@@ -11,15 +11,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static vinted.delivery.transaction.enums.PackageSize.*;
+import static vinted.delivery.transaction.enums.Provider.*;
+
 public class ShippingPriceRepository implements PriceRepository {
 
     private static final List<ShippingPrice> prices = Arrays.asList(
-        ShippingPrice.createEuropeanShippingPrice(Provider.LP, PackageSize.S, BigDecimal.valueOf(1.5)),
-        ShippingPrice.createEuropeanShippingPrice(Provider.LP, PackageSize.M, BigDecimal.valueOf(4.9)),
-        ShippingPrice.createEuropeanShippingPrice(Provider.LP, PackageSize.L, BigDecimal.valueOf(6.9)),
-        ShippingPrice.createEuropeanShippingPrice(Provider.MR, PackageSize.S, BigDecimal.valueOf(2.0)),
-        ShippingPrice.createEuropeanShippingPrice(Provider.MR, PackageSize.M, BigDecimal.valueOf(3.0)),
-        ShippingPrice.createEuropeanShippingPrice(Provider.MR, PackageSize.L, BigDecimal.valueOf(4.0))
+        ShippingPrice.createEuropeanShippingPrice(LP, S, BigDecimal.valueOf(1.5)),
+        ShippingPrice.createEuropeanShippingPrice(LP, M, BigDecimal.valueOf(4.9)),
+        ShippingPrice.createEuropeanShippingPrice(LP, L, BigDecimal.valueOf(6.9)),
+        ShippingPrice.createEuropeanShippingPrice(MR, S, BigDecimal.valueOf(2.0)),
+        ShippingPrice.createEuropeanShippingPrice(MR, M, BigDecimal.valueOf(3.0)),
+        ShippingPrice.createEuropeanShippingPrice(MR, L, BigDecimal.valueOf(4.0))
     );
 
     private final Map<PackageSize, BigDecimal> lowestPriceCache;

@@ -28,7 +28,7 @@ public class SpaceSeparatedValidator implements TransactionValidator {
     }
 
     private Boolean isValidLength(String[] entryComponents) {
-        return entryComponents.length > 2;
+        return entryComponents.length == 3;
     }
 
     private Boolean isValidDate(String[] entryComponents) {

@@ -4,7 +4,7 @@ import vinted.common.ApplicationContext;
 import vinted.delivery.transaction.entities.Transaction;
 import vinted.delivery.transaction.service.BillService;
 import vinted.delivery.transaction.service.input.Parser;
-import vinted.delivery.transaction.service.output.Writer;
+import vinted.delivery.transaction.service.output.TransactionWriter;
 
 import java.net.URISyntaxException;
 import java.nio.file.Path;
@@ -22,7 +22,7 @@ public class Application {
             BillService billService = context.getBean(BillService.class);
             billService.apply(transactions);
 
-            Writer writer = context.getBean(Writer.class);
+            TransactionWriter writer = context.getBean(TransactionWriter.class);
             writer.write(transactions);
         } catch (Exception ex) {
             System.out.println(String.format("Application failure: %s", ex.getMessage()));

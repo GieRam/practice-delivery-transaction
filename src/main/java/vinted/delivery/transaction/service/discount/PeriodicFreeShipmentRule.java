@@ -33,23 +33,21 @@ public class PeriodicFreeShipmentRule implements DiscountRule {
 
     @Override
     public void apply(List<Transaction> transactions) {
-        LocalDate currentPeriod;
+        LocalDate currentPeriod = transactions.get(0).getDate();
         int shipmentCount = 0;
 
         for (Transaction transaction : transactions) {
             if (!appliesTo.test(transaction)) {
                 continue;
             }
-            shipmentCount++;
-            currentPeriod = transaction.getDate();
             if (countResetTest.test(transaction.getDate(), currentPeriod)) {
                 shipmentCount = 0;
             }
-            if (shipmentCount == nextShipmentFreeLimit) {
+            if (shipmentCount == nextShipmentFreeLimit - 1) {
                 transaction.setDiscount(transaction.getBill().getPrice());
-                break;
             }
-
+            currentPeriod = transaction.getDate();
+            shipmentCount++;
         }
     }
 

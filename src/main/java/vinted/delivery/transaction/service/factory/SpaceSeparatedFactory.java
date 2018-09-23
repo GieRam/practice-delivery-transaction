@@ -8,7 +8,7 @@ import vinted.delivery.transaction.validation.TransactionValidator;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class SpaceSeparatedFactory implements Factory {
+public class SpaceSeparatedFactory implements TransactionFactory {
 
     private final String SEPARATOR = " ";
 

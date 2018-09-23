@@ -29,20 +29,24 @@ public class PeriodicDiscountLimitRule implements DiscountRule {
 
     @Override
     public void apply(List<Transaction> transactions) {
-        LocalDate currentPeriod;
+        LocalDate currentPeriod = transactions.get(0).getDate();
         BigDecimal accumulated = BigDecimal.ZERO;
+        boolean appliedForPeriod = false;
 
         for (Transaction transaction : transactions) {
-            currentPeriod = transaction.getDate();
             if (limitResetTest.test(transaction.getDate(), currentPeriod)) {
                 accumulated = BigDecimal.ZERO;
+                appliedForPeriod = false;
             }
+            if (appliedForPeriod) {
+                transaction.setDiscount(BigDecimal.ZERO);
+            }
+            currentPeriod = transaction.getDate();
             accumulated = accumulated.add(transaction.getBill().getDiscount());
-
-            if (accumulated.compareTo(discountLimit) >= 0) {
+            if (accumulated.compareTo(discountLimit) >= 0 && !appliedForPeriod) {
                 BigDecimal discountOverflow = accumulated.subtract(discountLimit);
                 transaction.setDiscount(transaction.getBill().getDiscount().subtract(discountOverflow));
-                break;
+                appliedForPeriod = true;
             }
         }
     }

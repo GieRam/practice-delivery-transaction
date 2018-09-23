@@ -4,7 +4,7 @@ import vinted.delivery.transaction.entities.Transaction;
 
 import java.util.List;
 
-public class SystemTransactionWriter implements Writer {
+public class SystemTransactionWriter implements TransactionWriter {
 
     private final TransactionFormatter formatter;
 

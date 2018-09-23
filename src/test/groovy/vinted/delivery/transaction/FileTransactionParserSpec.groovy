@@ -9,7 +9,7 @@ import vinted.delivery.transaction.validation.SpaceSeparatedValidator
 
 import java.nio.file.Paths
 
-class TransactionParserSpec extends Specification {
+class FileTransactionParserSpec extends Specification {
 
     Parser parser = new FileTransactionParser(new SpaceSeparatedFactory(new SpaceSeparatedValidator()))
 
@@ -20,5 +20,7 @@ class TransactionParserSpec extends Specification {
             List<Transaction> transactions = parser.parse(path)
         then:
             transactions.size() == 21
+            transactions.count { it -> it.isIgnored() } == 1
+            transactions.count { it -> it.isValid() } == 20
     }
 }

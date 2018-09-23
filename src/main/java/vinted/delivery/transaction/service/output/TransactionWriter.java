@@ -4,7 +4,7 @@ import vinted.delivery.transaction.entities.Transaction;
 
 import java.util.List;
 
-public interface Writer {
+public interface TransactionWriter {
 
     void write(List<Transaction> transactions);
 }

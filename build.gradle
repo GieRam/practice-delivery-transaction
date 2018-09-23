@@ -1,10 +1,12 @@
 plugins {
     id 'groovy'
     id 'java'
+    id 'application'
 }
 
 group 'vinted.homework.giedrius'
 version '1.0-SNAPSHOT'
+mainClassName = 'vinted.Application'
 
 sourceCompatibility = 1.8
 
