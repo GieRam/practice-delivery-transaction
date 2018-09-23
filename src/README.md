@@ -1,4 +1,3 @@
-TODO: add script for ./gradlew run args[]
+./gradlew run
+./gradlew run --args="/path/to/input.txt"
 ./gradlew test
-
-TODO: describe design decisions
